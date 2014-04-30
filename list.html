@@ -1,0 +1,35 @@
+<form name="myForm">
+    <div class="control-group" ng-class="{error: myForm.name.$invalid && !myForm.name.$pristine}">
+        <input type="text" name="name" ng-model="user.name" placeholder="Name" required class="span5">
+		<textarea name="text" ng-model="user.occupation" placeholder="Occupation" rows="1" class="span5"></textarea>
+		<button ng-click="add()" ng-disabled="myForm.$invalid" class="btn btn-primary pull-right"><i class="icon-white icon-pencil"></i> Add</button>
+    </div>
+</form>
+<alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
+<input type="text" ng-model="search" class="search-query" placeholder="Search"><br/>
+<table ng-table="tableParams" class="table">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Occupation</th>
+			<th>Action</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="(key, user) in users | orderByPriority | filter:search | orderBy:'name'">
+			<td data-title="'Name'">
+				<span ng-if="!user.$edit">{{user.name}}</span>
+				<div ng-if="user.$edit"><input class="form-control" type="text" ng-model="user.name" /></div>
+			</td>
+			<td data-title="'Text'" width="330">
+				<span ng-if="!user.$edit">{{user.occupation}}</span>
+				<div ng-if="user.$edit"><input class="form-control" type="text" ng-model="user.occupation" /></div>
+			</td>
+			<td data-title="'Actions'" width="200">
+				<a ng-if="!user.$edit" href="" class="btn btn-primary btn-xs" ng-click="user.$edit = true">Edit</a>
+				<a ng-if="!user.$destroy" ng-click="removeRecord(user.$id)" class="btn btn-default btn-xs">Delete</a>
+				<a ng-if="user.$edit" href="" class="btn btn-primary btn-xs" ng-click="save()">Save</a>
+			</td>
+		</tr>
+	</tbody>
+</table>
